@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "azadffactory"
+		},
+		"ls_adls_accountKey": {
+			"value": ""
+		},
+		"ls_snowflake_password": {
+			"value": ""
+		},
+		"ls_sqlserver_local_password": {
+			"value": ""
+		},
+		"ls_adls_properties_typeProperties_url": {
+			"value": "https://azsqlserverdata.dfs.core.windows.net/"
+		},
+		"ls_snowflake_properties_typeProperties_database": {
+			"value": "MIGRATION"
+		},
+		"ls_snowflake_properties_typeProperties_role": {
+			"value": "ACCOUNTADMIN"
+		},
+		"ls_snowflake_properties_typeProperties_host": {
+			"value": "BIJEDVR-WXC85777.snowflakecomputing.com"
+		},
+		"ls_sqlserver_local_properties_typeProperties_server": {
+			"value": "AZ\\SQLEXPRESS"
+		},
+		"ls_sqlserver_local_properties_typeProperties_database": {
+			"value": "AdventureWorksDW2022"
+		},
+		"ls_sqlserver_local_properties_typeProperties_userName": {
+			"value": "admin"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
