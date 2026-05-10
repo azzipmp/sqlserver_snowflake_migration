@@ -1,0 +1,91 @@
+{
+	"name": "ADLS_Snowflake",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get Metadata_ADLS",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "ds_ls_adls",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
+					}
+				}
+			},
+			{
+				"name": "ForEach_ADLS_File",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get Metadata_ADLS",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get Metadata_ADLS').output.childItems",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "run snowflake script",
+							"type": "Script",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"linkedServiceName": {
+								"referenceName": "ls_snowflake",
+								"type": "LinkedServiceReference"
+							},
+							"typeProperties": {
+								"scripts": [
+									{
+										"type": "Query",
+										"text": {
+											"value": "@concat(\n'USE DATABASE MIGRATION; ',\n'USE SCHEMA MIGRATION_SQL; ',\n'COPY INTO MIGRATION.MIGRATION_SQL.',\ntoUpper(replace(item().name,'.csv','')),\n' FROM @my_azure_stage ',\n' FILE_FORMAT = (FORMAT_NAME = ''my_csv_format'') ',\n' FILES = (''', item().name, ''') ',\n' ON_ERROR = CONTINUE;'\n)\n",
+											"type": "Expression"
+										}
+									}
+								],
+								"scriptBlockExecutionTimeout": "02:00:00",
+								"treatDecimalAsString": false
+							}
+						}
+					]
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2026-05-10T06:46:19Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

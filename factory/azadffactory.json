@@ -1,0 +1,15 @@
+{
+	"name": "azadffactory",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Enabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "7e5b350f-b474-4238-bdfa-c62146810121",
+		"tenantId": "479fbd80-cea4-4ca5-a9f9-513051ace949"
+	}
+}
